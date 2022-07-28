@@ -80,3 +80,6 @@ margin: 0px;
       width: 20%;
       outline: none;
       }
+      .border{
+        border: 1px solid red;
+      }

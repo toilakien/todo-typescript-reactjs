@@ -1,18 +1,53 @@
-import React,{useState} from "react";
+import { Form, Formik } from "formik";
 import { useDispatch } from "react-redux";
 import *as actions from '../redux/actions/Action'
 function AddTodo(){
     const dispatch=useDispatch();
-    const [text,setText]=useState<string>('');
-    const onAddTodo=(text:string)=>{
-
-        dispatch(actions.addTodo(text));
-    }
+   interface ErrorType{
+        todo?:string
+   }
     return (
-        <form className="form-container">
-            <input onChange={(e)=>setText(e.target.value)}  type="text" placeholder="Add Todo..." className="input-text" />
-            <input onClick={(e)=>{e.preventDefault(); onAddTodo(text)}} type="submit" value="Submit" className="input-submit" />
-        </form>
+        <Formik
+            initialValues={
+                {
+                    todo:""
+                }
+            }
+            validate={values => {
+                const errors:ErrorType = {};
+                if (!values.todo) {
+                  errors.todo = 'Required';
+                } 
+                return errors;
+              }}
+            onSubmit={
+                (values)=>{ 
+                    dispatch(actions.addTodo(values.todo));
+                }
+            }
+        >
+            {
+                props=>{
+                    const {values,touched,errors,handleChange,handleSubmit,handleBlur}=props;
+                   
+                    
+                    return (
+                        <form onSubmit={handleSubmit} className="form-container">
+                            <input onBlur={handleBlur}
+                             onChange={handleChange} 
+                             
+                             name='todo' 
+                             type="text" 
+                             placeholder="Add Todo..." 
+                            
+                             className={`input-text ${errors.todo?'border':''}`} />
+                            
+                            <input type="submit" className="input-submit" value='Submit'/>        
+                        </form>
+                    )
+                }
+            }
+        </Formik>
     )
 }
 export default AddTodo;
