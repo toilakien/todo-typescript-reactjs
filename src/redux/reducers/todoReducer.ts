@@ -32,7 +32,7 @@ const todoReducer=(state=init,action:Action)=>{
                 title:action.payload,
                 completed:false
             }
-            return {todos:[...state.todos,newTodo]}
+            return {todos:[newTodo,...state.todos]}
         }
             
         default:
