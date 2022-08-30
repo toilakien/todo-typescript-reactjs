@@ -42,7 +42,7 @@ function AddTodo() {
               placeholder="Add Todo..."
               className={`input-text ${errors.todo ? "border" : ""}`}
             />
-
+      
             <input type="submit" className="input-submit" value="Submit" />
           </form>
         );
